@@ -1,1 +1,612 @@
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EDUVERSE AKASH - Secure Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+            color: white;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 450px;
+            background-color: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 35px;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 10;
+            position: relative;
+            transform: scale(0.95);
+            animation: scaleUp 0.5s forwards;
+        }
+        
+        @keyframes scaleUp {
+            to { transform: scale(1); }
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 25px;
+            text-shadow: 0 0 15px rgba(0, 201, 255, 0.7);
+            letter-spacing: 2px;
+            background: linear-gradient(to right, #00c9ff, #92fe9d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .logo {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f);
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 5px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 30px rgba(0, 201, 255, 0.5);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 20px rgba(0, 201, 255, 0.5); }
+            50% { box-shadow: 0 0 40px rgba(0, 201, 255, 0.8); }
+            100% { box-shadow: 0 0 20px rgba(0, 201, 255, 0.5); }
+        }
+        
+        .logo-inner {
+            width: 90px;
+            height: 90px;
+            background: linear-gradient(135deg, #0f2027, #203a43);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2rem;
+            font-weight: bold;
+            color: #00c9ff;
+        }
+        
+        .message {
+            font-size: 1.1rem;
+            margin: 20px 0;
+            line-height: 1.6;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            border-radius: 15px;
+            border-left: 4px solid #00c9ff;
+        }
+        
+        .password-container {
+            margin: 25px 0;
+            position: relative;
+        }
+        
+        .password-input {
+            width: 100%;
+            padding: 15px 50px 15px 20px;
+            border-radius: 50px;
+            border: none;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1.1rem;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .password-input:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 20px rgba(0, 201, 255, 0.4);
+        }
+        
+        .toggle-password {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #00c9ff;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+        
+        .btn {
+            background: linear-gradient(to right, #00c9ff, #92fe9d);
+            color: #0f2027;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            margin: 20px 0;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 201, 255, 0.4);
+            font-weight: bold;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+        }
+        
+        .btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 201, 255, 0.6);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .security-info {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+            margin-top: 25px;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 14px;
+            border-radius: 10px;
+            border-top: 2px solid #b21f1f;
+        }
+        
+        .bubbles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            overflow: hidden;
+        }
+        
+        .bubble {
+            position: absolute;
+            bottom: -100px;
+            background: rgba(0, 201, 255, 0.1);
+            border-radius: 50%;
+            animation: bubble 15s linear infinite;
+            box-shadow: inset 0 0 10px rgba(0, 201, 255, 0.5);
+        }
+        
+        @keyframes bubble {
+            0% {
+                bottom: -100px;
+                transform: translateX(0) scale(0.5);
+                opacity: 0.2;
+            }
+            50% {
+                transform: translateX(100px) scale(1);
+                opacity: 0.5;
+            }
+            100% {
+                bottom: 100vh;
+                transform: translateX(-200px) scale(0.2);
+                opacity: 0.1;
+            }
+        }
+        
+        .iframe-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 100;
+            display: none;
+        }
+        
+        #eduverseFrame {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        .loading {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 200;
+            flex-direction: column;
+            transition: opacity 0.5s ease;
+        }
+        
+        .spinner {
+            width: 70px;
+            height: 70px;
+            border: 6px solid rgba(0, 201, 255, 0.3);
+            border-top: 6px solid #00c9ff;
+            border-radius: 50%;
+            animation: spin 1.5s linear infinite;
+            margin-bottom: 25px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .loading-text {
+            font-size: 1.4rem;
+            color: #00c9ff;
+            text-align: center;
+            max-width: 80%;
+            line-height: 1.6;
+        }
+        
+        .error-message {
+            color: #ff416c;
+            margin-top: 15px;
+            font-size: 0.95rem;
+            height: 20px;
+        }
+        
+        .attempts {
+            margin-top: 15px;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+        }
+        
+        .password-strength {
+            height: 5px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+        
+        .strength-meter {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(to right, #ff416c, #ff4b2b);
+            transition: width 0.3s ease;
+            border-radius: 10px;
+        }
+        
+        .footer {
+            position: absolute;
+            bottom: 20px;
+            width: 100%;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.9rem;
+            z-index: 5;
+        }
+        
+        .session-info {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 15px;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 10px;
+            margin: 15px 0;
+            font-size: 0.9rem;
+        }
+        
+        .session-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .session-status i {
+            color: #ff416c;
+        }
+        
+        .session-status.active i {
+            color: #92fe9d;
+        }
+    </style>
+</head>
+<body>
+    <div class="bubbles" id="bubblesContainer"></div>
+    
+    <div class="container" id="passwordContainer">
+        <div class="logo">
+            <div class="logo-inner">
+                <i class="fas fa-lock"></i>
+            </div>
+        </div>
+        <h1>EDUVERSE AKASH</h1>
+        
+        <div class="message">
+            <p>Welcome to the secure portal for EDUVERSE AKASH</p>
+            <p>Please enter your access password to continue</p>
+        </div>
+        
+        <div class="session-info">
+            <div class="session-status">
+                <i class="fas fa-user-shield"></i>
+                <span>Session: Not Authenticated</span>
+            </div>
+            <div class="session-status">
+                <i class="fas fa-clock"></i>
+                <span id="time-display">--:--:--</span>
+            </div>
+        </div>
+        
+        <div class="password-container">
+            <input type="password" id="passwordInput" class="password-input" placeholder="Enter Access Password" autocomplete="off">
+            <div class="toggle-password" id="togglePassword">
+                <i class="fas fa-eye"></i>
+            </div>
+            <div class="password-strength">
+                <div class="strength-meter" id="strengthMeter"></div>
+            </div>
+        </div>
+        
+        <div class="error-message" id="errorMessage"></div>
+        
+        <button class="btn" id="loginBtn">
+            <i class="fas fa-unlock-alt"></i>
+            Access Platform
+        </button>
+        
+        <div class="attempts">
+            <i class="fas fa-exclamation-circle"></i>
+            <span id="attemptsCount">Attempts remaining: 5</span>
+        </div>
+        
+        <div class="security-info">
+            <p><strong>Security Notice:</strong> Unauthorized access is strictly prohibited</p>
+            <p>All activities are monitored and recorded</p>
+        </div>
+    </div>
+    
+    <div class="loading" id="loadingScreen" style="display: none;">
+        <div class="spinner"></div>
+        <div class="loading-text">Authenticating and securing connection...</div>
+    </div>
+    
+    <div class="iframe-container" id="iframeContainer">
+        <iframe id="eduverseFrame" sandbox="allow-same-origin allow-scripts allow-popups allow-forms"></iframe>
+    </div>
+    
+    <div class="footer">
+        EDUVERSE AKASH | Secure Learning Portal | © 2025
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Elements
+            const passwordContainer = document.getElementById('passwordContainer');
+            const passwordInput = document.getElementById('passwordInput');
+            const loginBtn = document.getElementById('loginBtn');
+            const errorMessage = document.getElementById('errorMessage');
+            const togglePassword = document.getElementById('togglePassword');
+            const strengthMeter = document.getElementById('strengthMeter');
+            const loadingScreen = document.getElementById('loadingScreen');
+            const iframeContainer = document.getElementById('iframeContainer');
+            const eduverseFrame = document.getElementById('eduverseFrame');
+            const attemptsCount = document.getElementById('attemptsCount');
+            const timeDisplay = document.getElementById('time-display');
+            
+            // Password settings
+            const CORRECT_PASSWORD = "85";
+            let attempts = 5;
+            
+            // Update time display
+            function updateTime() {
+                const now = new Date();
+                const timeString = now.toLocaleTimeString();
+                timeDisplay.textContent = timeString;
+            }
+            
+            // Initial time update and set interval
+            updateTime();
+            setInterval(updateTime, 1000);
+            
+            // Password visibility toggle
+            let passwordVisible = false;
+            togglePassword.addEventListener('click', function() {
+                passwordVisible = !passwordVisible;
+                if (passwordVisible) {
+                    passwordInput.type = 'text';
+                    togglePassword.innerHTML = '<i class="fas fa-eye-slash"></i>';
+                } else {
+                    passwordInput.type = 'password';
+                    togglePassword.innerHTML = '<i class="fas fa-eye"></i>';
+                }
+            });
+            
+            // Password strength indicator
+            passwordInput.addEventListener('input', function() {
+                const password = passwordInput.value;
+                const strength = Math.min(100, Math.floor(Math.pow(password.length, 2) * 3));
+                strengthMeter.style.width = `${strength}%`;
+                
+                if (password.length > 0) {
+                    if (password.length < 2) {
+                        strengthMeter.style.background = 'linear-gradient(to right, #ff416c, #ff4b2b)';
+                    } else if (password.length < 4) {
+                        strengthMeter.style.background = 'linear-gradient(to right, #ff9a44, #ff6e68)';
+                    } else {
+                        strengthMeter.style.background = 'linear-gradient(to right, #00c9ff, #92fe9d)';
+                    }
+                } else {
+                    strengthMeter.style.width = '0%';
+                }
+            });
+            
+            // Login function
+            function authenticate() {
+                const password = passwordInput.value;
+                
+                if (password === "") {
+                    errorMessage.textContent = "Please enter the access password";
+                    return;
+                }
+                
+                if (password === CORRECT_PASSWORD) {
+                    // Successful authentication
+                    errorMessage.textContent = "";
+                    errorMessage.style.color = "#92fe9d";
+                    errorMessage.innerHTML = '<i class="fas fa-check-circle"></i> Authentication successful!';
+                    
+                    // Show loading screen
+                    loadingScreen.style.display = 'flex';
+                    
+                    // Hide password container
+                    setTimeout(() => {
+                        passwordContainer.style.display = 'none';
+                        
+                        // Load the website after a short delay
+                        setTimeout(() => {
+                            eduverseFrame.src = 'https://theeduverse.xyz/nxt-batch/10th/batch';
+                            iframeContainer.style.display = 'block';
+                            
+                            // Hide loading screen after iframe loads
+                            eduverseFrame.addEventListener('load', function() {
+                                loadingScreen.style.display = 'none';
+                                
+                                // Request fullscreen
+                                if (iframeContainer.requestFullscreen) {
+                                    iframeContainer.requestFullscreen().catch(err => {
+                                        console.log('Fullscreen error:', err);
+                                    });
+                                }
+                            });
+                        }, 1000);
+                    }, 1500);
+                } else {
+                    // Failed authentication
+                    attempts--;
+                    attemptsCount.textContent = `Attempts remaining: ${attempts}`;
+                    attemptsCount.style.color = attempts > 2 ? "inherit" : "#ff416c";
+                    
+                    if (attempts <= 0) {
+                        errorMessage.textContent = "Access denied. No attempts remaining.";
+                        loginBtn.disabled = true;
+                        loginBtn.style.opacity = "0.6";
+                        loginBtn.style.cursor = "not-allowed";
+                        
+                        // Show security alert
+                        setTimeout(() => {
+                            errorMessage.innerHTML = '<i class="fas fa-exclamation-triangle"></i> System locked! Please contact administrator';
+                            errorMessage.style.fontSize = '1.1rem';
+                            errorMessage.style.color = '#ff416c';
+                        }, 1000);
+                    } else {
+                        errorMessage.textContent = "Incorrect password. Please try again.";
+                        errorMessage.style.color = "#ff416c";
+                        
+                        // Shake animation for wrong password
+                        passwordContainer.style.animation = 'shake 0.5s';
+                        setTimeout(() => {
+                            passwordContainer.style.animation = '';
+                        }, 500);
+                    }
+                    
+                    // Clear password field
+                    passwordInput.value = "";
+                    strengthMeter.style.width = "0%";
+                }
+            }
+            
+            // Login button event
+            loginBtn.addEventListener('click', authenticate);
+            
+            // Allow Enter key to submit
+            passwordInput.addEventListener('keyup', function(event) {
+                if (event.key === "Enter") {
+                    authenticate();
+                }
+            });
+            
+            // Security measures
+            function disableContextMenu(e) {
+                e.preventDefault();
+            }
+            
+            function disableShortcuts(e) {
+                // Disable F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U, Escape
+                if (
+                    e.key === 'F12' || 
+                    (e.ctrlKey && e.shiftKey && e.key === 'I') || 
+                    (e.ctrlKey && e.shiftKey && e.key === 'J') || 
+                    (e.ctrlKey && e.key === 'U') ||
+                    e.key === 'Escape'
+                ) {
+                    e.preventDefault();
+                }
+            }
+            
+            // Apply security measures when iframe is shown
+            document.addEventListener('fullscreenchange', function() {
+                if (document.fullscreenElement) {
+                    document.addEventListener('contextmenu', disableContextMenu);
+                    document.addEventListener('keydown', disableShortcuts);
+                } else {
+                    document.removeEventListener('contextmenu', disableContextMenu);
+                    document.removeEventListener('keydown', disableShortcuts);
+                }
+            });
+            
+            // Create bubbles dynamically
+            function createBubbles() {
+                const bubblesContainer = document.getElementById('bubblesContainer');
+                for (let i = 0; i < 20; i++) {
+                    const bubble = document.createElement('div');
+                    bubble.classList.add('bubble');
+                    
+                    // Random size
+                    const size = Math.random() * 80 + 20;
+                    bubble.style.width = `${size}px`;
+                    bubble.style.height = `${size}px`;
+                    
+                    // Random position
+                    bubble.style.left = `${Math.random() * 100}%`;
+                    
+                    // Random animation
+                    const duration = Math.random() * 20 + 10;
+                    const delay = Math.random() * 5;
+                    bubble.style.animation = `bubble ${duration}s linear ${delay}s infinite`;
+                    
+                    bubblesContainer.appendChild(bubble);
+                }
+            }
+            
+            // Create initial bubbles
+            createBubbles();
+            
+            // Add shake animation to CSS
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes shake {
+                    0% { transform: translateX(0); }
+                    25% { transform: translateX(-10px); }
+                    50% { transform: translateX(10px); }
+                    75% { transform: translateX(-10px); }
+                    100% { transform: translateX(0); }
+                }
+            `;
+            document.head.appendChild(style);
+        });
+    </script>
+</body>
+</html>
